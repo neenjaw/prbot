@@ -1,0 +1,26 @@
+{
+  "name": "pr-bot",
+  "version": "0.0.1",
+  "description": "A basic bot to fetch PRs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.3.0",
+    "octokit": "^1.0.5"
+  },
+  "engines": {
+    "node": "14.15.2"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/zany-typhoon-krill"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express",
+    "octokit"
+  ]
+}
