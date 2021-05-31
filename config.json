@@ -1,0 +1,32 @@
+{
+  "github": {
+    "target_owner": "neenjaw",
+    "target_repo": "compile-mermaid-markdown-action"
+  },
+  "pull_request": {
+    "team_reviewer_slots": 2,
+    "key_reviewer_slots": 1,
+    "uat_slot": true,
+    "key_reviewers": ["unrolled", "raulchedrese"],
+    "labels": {
+      "UAT_approved": "QA passed",
+      "UAT_changes": "QA fixes needed",
+      "UAT_not_required": "QA not needed"
+    }
+  },
+  "icons": {
+    "blank_square": "⬜",
+    "blank_circle": "⚪",
+    "approved": "✅",
+    "changes": "❗",
+    "comment": "💬",
+    "key_reviewer_approved": "✨",
+    "key_reviewer_changes": "‼️",
+    "key_reviewer_comment": "🗨️",
+    "UAT_approved": "🎨",
+    "UAT_not_required": "⚪",
+    "UAT_changes": "🖌️",
+    "warning": "⚠️",
+    "time_sensitive": "⏲️"
+  }
+}
