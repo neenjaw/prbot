@@ -1,47 +1,47 @@
 const homeView = () => ({
-  type: "home",
-  callback_id: "homeView",
+  type: 'home',
+  callback_id: 'homeView',
 
   /* body of the view */
   blocks: [
     {
-      type: "section",
+      type: 'section',
       text: {
-        type: "mrkdwn",
-        text: "*Welcome to _PRBot's Home_* :tada:"
-      }
+        type: 'mrkdwn',
+        text: "*Welcome to _PRBot's Home_* :tada:",
+      },
     },
     {
-      type: "divider"
+      type: 'divider',
     },
     {
-      type: "section",
+      type: 'section',
       text: {
-        type: "mrkdwn",
+        type: 'mrkdwn',
         text: `
 Interact with PRBot in two ways:
 
 - Use a command: /prbot <label>
   - returns a list of PRs tagged with the label
 - Use an in-channel phase: !prs <label>
-  - returns a list of PRs tagged with the label`
-      }
-    }
-  ]
-});
+  - returns a list of PRs tagged with the label`,
+      },
+    },
+  ],
+})
 
 function registerViewEvents(app) {
-  app.event("app_home_opened", async ({ event, client, context }) => {
+  app.event('app_home_opened', async ({ event, client, context }) => {
     try {
       const result = await client.views.publish({
         /* the user that opened your app's app home */
         user_id: event.user,
-        view: homeView()
-      });
+        view: homeView(),
+      })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  });
+  })
 }
 
-module.exports = { registerViewEvents };
+module.exports = { registerViewEvents }
