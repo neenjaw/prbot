@@ -1,16 +1,19 @@
-const { fetchPRs } = require('../lib/gh')
-const { formatPrsForChannel } = require('../lib/report')
+import { App, MessageAttachment } from '@slack/bolt'
+import { fetchPRs } from '../lib/gh'
+import { formatPrsForChannel } from '../lib/report'
 
 const PR_COMMAND = '!prs'
 
-function registerMessageEvents(app) {
+export function registerMessageEvents(app: App): void {
   app.message(
     new RegExp(`^${PR_COMMAND}`, 'i'),
-    async ({ message, say, client }) => {
+    async ({ message, client }) => {
       const channel = message.channel
-      const commandParams = message.text.slice(PR_COMMAND.length).trim()
+      const commandParams = (message as MessageAttachment)?.text
+        ?.slice(PR_COMMAND.length)
+        .trim()
 
-      if (commandParams === '') {
+      if (!commandParams) {
         return
       }
 
@@ -46,9 +49,10 @@ function registerMessageEvents(app) {
         return
       }
 
-      const { ok: historyOk, messages } = await client.conversations.history({
-        channel,
-      })
+      const { ok: historyOk, messages = [] } =
+        await client.conversations.history({
+          channel,
+        })
 
       if (!historyOk) {
         console.error('Unable to retrieve conversation history for channel')
@@ -60,6 +64,10 @@ function registerMessageEvents(app) {
         .slice(1) // don't delete the most recent one!
 
       for (const message of botMessages) {
+        if (!message.ts) {
+          continue
+        }
+
         await client.chat.delete({
           channel,
           ts: message.ts,
@@ -68,5 +76,3 @@ function registerMessageEvents(app) {
     }
   )
 }
-
-module.exports = { registerMessageEvents }

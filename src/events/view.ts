@@ -1,4 +1,6 @@
-const homeView = () => ({
+import { App, View } from '@slack/bolt'
+
+const homeView = (): View => ({
   type: 'home',
   callback_id: 'homeView',
 
@@ -30,7 +32,7 @@ Interact with PRBot in two ways:
   ],
 })
 
-function registerViewEvents(app) {
+export function registerViewEvents(app: App): void {
   app.event('app_home_opened', async ({ event, client, context }) => {
     try {
       const result = await client.views.publish({
@@ -43,5 +45,3 @@ function registerViewEvents(app) {
     }
   })
 }
-
-module.exports = { registerViewEvents }

@@ -1,5 +1,5 @@
-const { icons, pull_request: pullRequestConfig } = require('../config.json')
-const {
+import { icons, pull_request as pullRequestConfig } from '../../config.json'
+import {
   GITHUB_PR_APPROVED_STATE,
   GITHUB_PR_COMMENTED_STATE,
   GITHUB_PR_CHANGES_REQUESTED_STATE,
@@ -20,16 +20,15 @@ const {
   ICON_UAT_APPROVED,
   ICON_UAT_NOT_REQUIRED,
   ICON_UAT_CHANGES,
-  ICON_WARNING,
-  ICON_TIME_SENSITIVE,
-} = require('./constants')
+  UATStates,
+} from './constants'
 
 /**
  * @param {Array<Object>} prs
  * @param {boolean} filterDraftPr
  * @returns string
  */
-const formatPrsForChannel = (prs, filterDraftPr = false) => {
+export const formatPrsForChannel = (prs, filterDraftPr: boolean = false) => {
   if (filterDraftPr) {
     prs = prs.filter((pr) => !pr.isDraft)
   }
@@ -37,7 +36,7 @@ const formatPrsForChannel = (prs, filterDraftPr = false) => {
 }
 
 /**
- * @param {Array<Object>} pr
+ * @param {Object} pr
  */
 const formatPrForChannel = (pr) => {
   const {
@@ -119,12 +118,14 @@ const calculateStats = (pr) => {
   }
 }
 
-/**
- * @param {Array<Object>} reviews
- * @param {string} author
- * @returns {Object<string, string>}
- */
-const getLatestReviewByReviewer = (reviews, author) => {
+type Review = {
+  state: string
+  author: {
+    login: string
+  }
+}
+
+const getLatestReviewByReviewer = (reviews: Review[], author: string) => {
   return reviews.reduce((memo, { state, author: { login: reviewer } }) => {
     // Author can't approve their own PR
     if (reviewer === author) {
@@ -142,15 +143,13 @@ const getLatestReviewByReviewer = (reviews, author) => {
 
     memo[reviewer] = state
     return memo
-  }, {})
+  }, {} as Record<string, string>)
 }
 
-/**
- * @param {Object<string, string>} reviews
- * @param {Array<string>} keyReviewers
- * @returns {Object}
- */
-const chunkReviewsByKeyReviewer = (reviews, keyReviewers) => {
+const chunkReviewsByKeyReviewer = (
+  reviews: Record<string, string>,
+  keyReviewers: string[]
+) => {
   const reviewsByTeamReviewer = []
   const reviewsByKeyReviewer = []
 
@@ -168,12 +167,7 @@ const chunkReviewsByKeyReviewer = (reviews, keyReviewers) => {
   }
 }
 
-/**
- * @param {Array<string>}
- * @param {string} state
- * @returns {number}
- */
-const countReviews = (reviews, state) =>
+const countReviews = (reviews: string[], state: string) =>
   reviews.reduce((count, review) => {
     if (review === state) {
       return count + 1
@@ -181,10 +175,6 @@ const countReviews = (reviews, state) =>
     return count
   }, 0)
 
-/**
- * @param {Object} pr
- * @returns {string}
- */
 const getUatState = (pr) => {
   if (
     !pullRequestConfig?.labels?.UAT_approved ||
@@ -215,10 +205,10 @@ const getUatState = (pr) => {
 }
 
 const createTeamReviews = (
-  slotsToAssign,
-  countCommented,
-  countChangesRequested,
-  countApproved
+  slotsToAssign: number,
+  countCommented: number,
+  countChangesRequested: number,
+  countApproved: number
 ) => {
   return createReviews(
     slotsToAssign,
@@ -235,10 +225,10 @@ const createTeamReviews = (
 }
 
 const createKeyReviews = (
-  slotsToAssign,
-  countCommented,
-  countChangesRequested,
-  countApproved
+  slotsToAssign: number,
+  countCommented: number,
+  countChangesRequested: number,
+  countApproved: number
 ) => {
   return createReviews(
     slotsToAssign,
@@ -254,12 +244,19 @@ const createKeyReviews = (
   )
 }
 
+interface IconList {
+  iconComment: string
+  iconChanges: string
+  iconApproved: string
+  iconBlank: string
+}
+
 const createReviews = (
-  slotsToAssign,
-  countCommented,
-  countChangesRequested,
-  countApproved,
-  { iconComment, iconChanges, iconApproved, iconBlank }
+  slotsToAssign: number,
+  countCommented: number,
+  countChangesRequested: number,
+  countApproved: number,
+  { iconComment, iconChanges, iconApproved, iconBlank }: IconList
 ) => {
   const slots = []
   slots.push(
@@ -278,7 +275,7 @@ const createReviews = (
   return slots
 }
 
-const createUatReview = (uatState) => {
+const createUatReview = (uatState: UATStates) => {
   if (uatState === UAT_APPROVED_STATE) {
     return icons?.UAT_approved ?? ICON_UAT_APPROVED
   } else if (uatState === UAT_CHANGES_REQUESTED_STATE) {
@@ -286,8 +283,4 @@ const createUatReview = (uatState) => {
   } else {
     return icons?.UAT_not_required ?? ICON_UAT_NOT_REQUIRED
   }
-}
-
-module.exports = {
-  formatPrsForChannel,
 }

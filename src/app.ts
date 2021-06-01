@@ -2,13 +2,13 @@ if (
   process.env.NODE_ENV !== 'glitch' &&
   process.env.NODE_ENV !== 'production'
 ) {
-  require('dotenv').config()
+  require('dotenv').config({ path: __dirname + '/.env' })
 }
 
-const { App, LogLevel } = require('@slack/bolt')
-const { registerCommandEvents } = require('./events/command')
-const { registerMessageEvents } = require('./events/message')
-const { registerViewEvents } = require('./events/view')
+import { App, LogLevel } from '@slack/bolt'
+import { registerCommandEvents } from './events/command'
+import { registerMessageEvents } from './events/message'
+import { registerViewEvents } from './events/view'
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -21,7 +21,7 @@ registerMessageEvents(app)
 registerViewEvents(app)
 
 const startServer = async () => {
-  await app.start(process.env.PORT || 3000)
+  await app.start(process.env.PORT ? Number(process.env.PORT) : 3000)
   console.log('⚡️ Bolt app is running!')
 }
 
