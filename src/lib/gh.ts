@@ -1,5 +1,6 @@
 import { Octokit } from 'octokit'
 import { github } from '../../config.json'
+import { PullRequest } from '../types'
 
 const octokit = process.env.GITHUB_TOKEN
   ? new Octokit({ auth: process.env.GITHUB_TOKEN })
@@ -15,7 +16,11 @@ interface FetchProps {
   labels?: string[]
 }
 
-export const fetchPRs = async ({ owner, repo, labels }: FetchProps = {}) => {
+export const fetchPRs = async ({
+  owner,
+  repo,
+  labels,
+}: FetchProps = {}): Promise<PullRequest[]> => {
   if (!(owner ?? github?.target_owner) || !(repo ?? github?.target_repo)) {
     throw new Error(
       'If not provided as arguments, the GitHub owner and repo name must be defined in `config.json`'

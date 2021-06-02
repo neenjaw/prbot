@@ -1,4 +1,5 @@
 import { icons, pull_request as pullRequestConfig } from '../../config.json'
+import { PullRequest } from '../types'
 import {
   GITHUB_PR_APPROVED_STATE,
   GITHUB_PR_COMMENTED_STATE,
@@ -23,22 +24,17 @@ import {
   UATStates,
 } from './constants'
 
-/**
- * @param {Array<Object>} prs
- * @param {boolean} filterDraftPr
- * @returns string
- */
-export const formatPrsForChannel = (prs, filterDraftPr: boolean = false) => {
+export const formatPrsForChannel = (
+  prs: PullRequest[],
+  filterDraftPr: boolean = false
+): string => {
   if (filterDraftPr) {
     prs = prs.filter((pr) => !pr.isDraft)
   }
   return prs.map(formatPrForChannel).join('\n')
 }
 
-/**
- * @param {Object} pr
- */
-const formatPrForChannel = (pr) => {
+const formatPrForChannel = (pr: PullRequest): string => {
   const {
     countTeamCommented,
     countTeamChangesRequested,
@@ -79,10 +75,7 @@ const formatPrForChannel = (pr) => {
   return `${reviews} <${pr.url}|PR #${pr.number}> ${pr.title}`
 }
 
-/**
- * @param {Array<Object>} pr
- */
-const calculateStats = (pr) => {
+const calculateStats = (pr: PullRequest) => {
   const reviewsByReviewer = getLatestReviewByReviewer(
     pr.reviews.nodes,
     pr.author.login
@@ -175,7 +168,7 @@ const countReviews = (reviews: string[], state: string) =>
     return count
   }, 0)
 
-const getUatState = (pr) => {
+const getUatState = (pr: PullRequest) => {
   if (
     !pullRequestConfig?.labels?.UAT_approved ||
     !pullRequestConfig?.labels?.UAT_changes ||
