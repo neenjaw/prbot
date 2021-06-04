@@ -3,9 +3,8 @@
     "rootDir": ".",
     "outDir": "../dist/"
   },
-  "references": [
-    // this is how we declare a dependency from
-    { "path": "../" } // this project to the one at the root dir`
-  ],
-  "extends": "../tsconfig"
+  "references": [{ "path": "../" }],
+  "extends": "../tsconfig",
+  "include": ["./**/*.ts"],
+  "exclude": ["../config.json"]
 }
