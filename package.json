@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "description": "A basic bot to fetch PRs",
   "main": "app.js",
+  "author": "Tim Austin <tim@neenjaw.com> (https://neenjaw.com)",
   "scripts": {
-    "start": "node dist/app.js"
+    "build": "npm run clean && tsc --build src",
+    "clean": "rimraf dist",
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@google-cloud/functions-framework": "^1.7.1",
     "@slack/bolt": "^3.3.0",
     "dotenv": "^10.0.0",
     "octokit": "^1.0.5"
@@ -16,17 +19,22 @@
     "node": "14.15.2"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/zany-typhoon-krill"
+    "url": "https://github.com/neenjaw/prbot"
   },
   "license": "MIT",
   "keywords": [
     "node",
-    "glitch",
-    "express",
-    "octokit"
+    "slack",
+    "octokit",
+    "typescript"
   ],
   "devDependencies": {
+    "@google-cloud/functions-framework": "^1.7.1",
     "@types/node": "^15.6.1",
+    "rimraf": "^3.0.2",
     "typescript": "^4.3.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

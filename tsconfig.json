@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
+    "outDir": ".",
+    "rootDir": ".",
     "target": "es2019",
     "module": "es2015",
     "lib": ["es6"],
     "allowJs": true,
-    "outDir": "dist",
-    "rootDir": ".",
     "strict": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
@@ -14,6 +14,5 @@
     "forceConsistentCasingInFileNames": true,
     "composite": true
   },
-  "include": ["./src/**/*.ts", "./config.json"],
-  "exclude": ["./node_modules/**/*"]
+  "files": ["config.json"]
 }

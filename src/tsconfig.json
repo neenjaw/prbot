@@ -1,10 +1,19 @@
 {
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "../dist/"
+    "outDir": "../dist/",
+    "esModuleInterop": true,
+    "target": "es2019",
+    "module": "es2015",
+    "lib": ["es6"],
+    "allowJs": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "references": [{ "path": "../" }],
-  "extends": "../tsconfig",
   "include": ["./**/*.ts"],
-  "exclude": ["../config.json"]
+  "references": [{ "path": "../" }]
 }
