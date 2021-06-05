@@ -1,15 +1,6 @@
-import { Octokit } from 'octokit'
+import { graphql } from '@octokit/graphql'
 import { github } from '../../config.json'
 import { PullRequest } from '../types'
-
-const octokit = process.env.GITHUB_TOKEN
-  ? new Octokit({ auth: process.env.GITHUB_TOKEN })
-  : undefined
-
-if (!octokit) {
-  throw new Error('Github token must be supplied in `.env` file')
-}
-
 interface FetchProps {
   owner?: string
   repo?: string
@@ -27,13 +18,24 @@ export const fetchPRs = async ({
     )
   }
 
+  const graphqlWithAuth = graphql.defaults({
+    headers: {
+      authorization: process.env.GITHUB_TOKEN,
+    },
+  })
+
   const {
     repository: {
       pullRequests: { nodes },
     },
-  } = await octokit.graphql(
+  } = await graphqlWithAuth(
     `
-      query pullRequests($owner: String!, $repo: String!, $num: Int = 50, $labels: [String!]) {
+      query pullRequests(
+        $owner: String!
+        $repo: String!
+        $num: Int = 50
+        $labels: [String!]
+      ) {
         repository(owner: $owner, name: $repo) {
           pullRequests(labels: $labels, first: $num, states: OPEN) {
             nodes {
