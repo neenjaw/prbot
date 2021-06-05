@@ -1,3 +1,8 @@
+export type UATStates =
+  | 'UAT_APPROVED'
+  | 'UAT_NOT_REQUIRED'
+  | 'UAT_CHANGES_REQUESTED'
+
 export type PullRequest = {
   author: {
     login: string

@@ -1,11 +1,8 @@
+import { UATStates } from '../types'
+
 export const GITHUB_PR_APPROVED_STATE = 'APPROVED'
 export const GITHUB_PR_COMMENTED_STATE = 'COMMENTED'
 export const GITHUB_PR_CHANGES_REQUESTED_STATE = 'CHANGES_REQUESTED'
-
-export type UATStates =
-  | 'UAT_APPROVED'
-  | 'UAT_NOT_REQUIRED'
-  | 'UAT_CHANGES_REQUESTED'
 
 export const UAT_APPROVED_STATE: UATStates = 'UAT_APPROVED'
 export const UAT_NOT_REQUIRED_STATE: UATStates = 'UAT_NOT_REQUIRED'

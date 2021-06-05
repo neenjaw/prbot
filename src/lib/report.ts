@@ -1,5 +1,5 @@
 import { icons, pull_request as pullRequestConfig } from '../../config.json'
-import { PullRequest } from '../types'
+import { PullRequest, UATStates } from '../types'
 import {
   GITHUB_PR_APPROVED_STATE,
   GITHUB_PR_COMMENTED_STATE,
@@ -21,7 +21,6 @@ import {
   ICON_UAT_APPROVED,
   ICON_UAT_NOT_REQUIRED,
   ICON_UAT_CHANGES,
-  UATStates,
 } from './constants'
 
 export const formatPrsForChannel = (
