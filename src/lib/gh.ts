@@ -43,6 +43,7 @@ export const fetchPRs = async ({
                   login
                 }
               }
+              createdAt
               isDraft
               labels(first: $num) {
                 nodes {
@@ -57,6 +58,20 @@ export const fetchPRs = async ({
                     ... on User {
                       login
                     }
+                  }
+                }
+              }
+              pullRequestReadyTime: timelineItems(last: 1, itemTypes: READY_FOR_REVIEW_EVENT) {
+                nodes {
+                  ... on ReadyForReviewEvent {
+                    createdAt
+                  }
+                }
+              }
+              pullRequestReopenTime: timelineItems(last:1, itemTypes: REOPENED_EVENT) {
+                nodes {
+                  ... on ReopenedEvent {
+                    createdAt
                   }
                 }
               }

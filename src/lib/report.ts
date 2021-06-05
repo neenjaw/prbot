@@ -72,7 +72,10 @@ const formatPrForChannel = (pr: PullRequest): string => {
     ...keyReviews,
     ...(uatSlotToAssign ? [uatReview] : []),
   ].join(' ')
-  return `${reviews} <${pr.url}|PR #${pr.number}> ${pr.title}`
+
+  const prTime = formatPullRequestDateTime(pr)
+
+  return `${reviews} <${pr.url}|PR #${pr.number}> (${prTime}) ${pr.title}`
 }
 
 const calculateStats = (pr: PullRequest) => {
@@ -195,6 +198,37 @@ const getUatState = (pr: PullRequest) => {
 
     return state
   }, UAT_NOT_REQUIRED_STATE)
+}
+
+const formatPullRequestDateTime = (pr: PullRequest): string => {
+  const times = [
+    ['created', pr.createdAt],
+    ['readied', pr.pullRequestReadyTime.nodes?.[0]?.createdAt],
+    ['reopened', pr.pullRequestReopenTime.nodes?.[0]?.createdAt],
+  ]
+
+  const [timeType, time] = times.reduce(function (prev, current) {
+    const [, prevTime] = prev
+    const [, currentTime] = current
+
+    if (!currentTime) {
+      return prev
+    }
+
+    return prevTime > currentTime ? prev : current
+  })
+
+  const timeTypeDisplay =
+    timeType === 'created'
+      ? 'Created'
+      : timeType === 'readied'
+      ? 'Readied'
+      : 'Reopened'
+
+  const date = new Date(time)
+  const unixTime = Math.round(date.getTime() / 1000)
+
+  return `<!date^${unixTime}^${timeTypeDisplay}: {date_pretty}|${date.toUTCString()}>`
 }
 
 const createTeamReviews = (

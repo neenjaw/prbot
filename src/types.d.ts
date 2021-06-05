@@ -2,6 +2,7 @@ export type PullRequest = {
   author: {
     login: string
   }
+  createdAt: string
   isDraft: boolean
   labels: {
     nodes: Array<{
@@ -15,6 +16,16 @@ export type PullRequest = {
       author: {
         login
       }
+    }>
+  }
+  pullRequestReadyTime: {
+    nodes: Array<{
+      createdAt: string
+    }>
+  }
+  pullRequestReopenTime: {
+    nodes: Array<{
+      createdAt: string
     }>
   }
   title: string
