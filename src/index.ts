@@ -17,7 +17,6 @@ import { registerMessageEvents } from './events/message'
 import { registerViewEvents } from './events/view'
 
 import type { HttpFunction } from '@google-cloud/functions-framework/build/src/functions'
-import { env } from 'process'
 
 if (!process.env.GITHUB_TOKEN) {
   throw new Error('Github token must be supplied in `GITHUB_TOKEN` env var')
