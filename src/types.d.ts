@@ -3,6 +3,13 @@ export type UATStates =
   | 'UAT_NOT_REQUIRED'
   | 'UAT_CHANGES_REQUESTED'
 
+export type Review = {
+  state: string
+  author: {
+    login: string
+  }
+}
+
 export type PullRequest = {
   author: {
     login: string
@@ -16,12 +23,7 @@ export type PullRequest = {
   }
   number: number
   reviews: {
-    nodes: Array<{
-      state: string
-      author: {
-        login
-      }
-    }>
+    nodes: Array<Review>
   }
   pullRequestReadyTime: {
     nodes: Array<{
@@ -35,4 +37,11 @@ export type PullRequest = {
   }
   title: string
   url: string
+}
+
+export interface IconList {
+  iconComment: string
+  iconChanges: string
+  iconApproved: string
+  iconBlank: string
 }

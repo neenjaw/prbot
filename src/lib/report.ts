@@ -1,5 +1,5 @@
 import { icons, pull_request as pullRequestConfig } from '../../config.json'
-import { PullRequest, UATStates } from '../types'
+import { IconList, PullRequest, Review, UATStates } from '../types'
 import {
   GITHUB_PR_APPROVED_STATE,
   GITHUB_PR_COMMENTED_STATE,
@@ -110,13 +110,6 @@ const calculateStats = (pr: PullRequest) => {
     countKeyChangesRequested,
     countKeyApproved,
     uatState,
-  }
-}
-
-type Review = {
-  state: string
-  author: {
-    login: string
   }
 }
 
@@ -268,13 +261,6 @@ const createKeyReviews = (
       iconBlank: icons?.blank_circle ?? ICON_BLANK_CIRCLE,
     }
   )
-}
-
-interface IconList {
-  iconComment: string
-  iconChanges: string
-  iconApproved: string
-  iconBlank: string
 }
 
 const createReviews = (
